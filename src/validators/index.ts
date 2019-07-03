@@ -1,0 +1,1 @@
+export { checkNumberInRange, isInRange } from './checkNumberInRange';
