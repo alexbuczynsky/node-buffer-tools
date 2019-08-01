@@ -1,12 +1,14 @@
 {
   "name": "ts-buffer-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "repository": "https://github.com/alexbuczynsky/node-buffer-tools",
   "keywords": [],
@@ -21,5 +23,8 @@
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.2"
-  }
+  },
+  "files": [
+    "dist/**/*"
+  ]
 }
