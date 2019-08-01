@@ -1,5 +1,6 @@
 import { isInRange, checkNumberInRange } from "../validators";
 import { OutOfRangeError } from "../errors";
+import { IsBigIntSupported } from "../utils/IsBigIntSupported";
 
 /**
  *
@@ -61,9 +62,20 @@ export class PrimativeNumberArray<T extends PrimativeNumberBase> extends Array<T
 export abstract class PrimativeNumberBigInt extends PrimativeNumberBase {
   public abstract readonly min: bigint;
   public abstract readonly max: bigint;
+  private _value!: bigint
 
-  constructor(private _value: bigint = BigInt(0)) {
+  constructor(value?: bigint) {
     super();
+
+    if (IsBigIntSupported()) {
+      if (value !== undefined) {
+        this._value = value;
+      } else {
+        this._value = BigInt(0);
+      }
+    } else {
+      this._value = 0 as unknown as bigint;
+    }
   }
 
   get value() {
