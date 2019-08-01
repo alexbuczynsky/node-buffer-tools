@@ -1,5 +1,5 @@
 {
-  "name": "buffer-tools",
+  "name": "ts-buffer-tools",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,6 +8,7 @@
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage"
   },
+  "repository": "https://github.com/alexbuczynsky/node-buffer-tools",
   "keywords": [],
   "author": "",
   "license": "ISC",
