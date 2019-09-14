@@ -467,10 +467,10 @@ export function SetUInt32At(buffer: Buffer, pos: number, value: number, endian: 
  * @param {Endian} [endian='LE']
  * @returns {number}
  */
-export function GetFloat64At(buffer: Buffer, pos: number, endian: Endian = 'LE'): number {
+export function GetFloat64At(buffer: Buffer, pos: number, precision: number = 15, endian: Endian = 'LE'): number {
   switch (endian) {
     case 'BE':
-      return buffer.readDoubleBE(pos);
+      return toFixed(buffer.readDoubleBE(pos), precision);
     case 'LE':
       return buffer.readDoubleLE(pos)
   }
