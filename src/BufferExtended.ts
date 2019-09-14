@@ -8,6 +8,8 @@ import {
   SetInt16At,
   GetInt32At,
   SetInt32At,
+  GetFloat64At,
+  SetFloat64At,
   GetInt64_UNSAFE,
   SetInt64_UNSAFE,
   GetUInt8At,
@@ -343,6 +345,30 @@ export class BuffExt {
    */
   public setFloat32At(pos: number, value: number) {
     return SetFloat32At(this.buffer, pos, value, this.endian)
+  }
+
+  /**
+   * Get 32 bit float value
+   *
+   * @param {number} pos
+   * @param {number} [precision=3]
+   * @returns
+   * @memberof BuffExt
+   */
+  public getFloat64At(pos: number, precision: number = 3) {
+    return GetFloat64At(this.buffer, pos, precision, this.endian)
+  }
+
+  /**
+   * Set 32 bit float value
+   *
+   * @param {number} pos
+   * @param {number} value
+   * @returns
+   * @memberof BuffExt
+   */
+  public setFloat64At(pos: number, value: number) {
+    return SetFloat64At(this.buffer, pos, value, this.endian)
   }
 
   /**
