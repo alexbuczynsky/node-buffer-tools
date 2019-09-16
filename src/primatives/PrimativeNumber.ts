@@ -125,6 +125,10 @@ export abstract class PrimativeNumber extends PrimativeNumberBase {
     return checkNumberInRange(this.value, this.min, this.max);
   }
 
+  public get isValid(): boolean {
+    return this.isInRange(this.value);
+  }
+
   public isInRange(value: number) {
     return isInRange(value, this.min, this.max);
   }
