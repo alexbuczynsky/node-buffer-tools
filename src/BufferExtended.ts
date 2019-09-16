@@ -22,6 +22,7 @@ import {
   SetFloat32At,
   Endian,
   ToggleBitAt,
+  StringParser,
 } from './utils/BufferTools';
 
 /**
@@ -369,6 +370,18 @@ export class BuffExt {
    */
   public setFloat64At(pos: number, value: number) {
     return SetFloat64At(this.buffer, pos, value, this.endian)
+  }
+
+  /**
+   * Get String of specific length from the current buffer
+   *
+   * @param {number} pos starting position
+   * @param {number} length number of characters in the string
+   * @param {BufferEncoding} [format='utf-8']
+   * @memberof BuffExt
+   */
+  public getStringAt(pos: number, length: number, format: BufferEncoding = 'utf-8') {
+    return StringParser(this.buffer.slice(pos, pos + length - 1), format)
   }
 
   /**
