@@ -24,6 +24,8 @@ import {
   ToggleBitAt,
   StringParser,
   WordSwap,
+  GetBCDAt,
+  SetBCDAt,
 } from './utils/BufferTools';
 
 /**
@@ -394,6 +396,28 @@ export class BuffExt {
    */
   public getStringAt(pos: number, length: number, format: BufferEncoding = 'utf-8') {
     return StringParser(this.buffer.slice(pos, pos + length - 1), format)
+  }
+
+  /**
+   * Get Binary-Coded Decimal value at specific byte
+   *
+   * @param {number} pos
+   * @returns {number}
+   * @memberof BuffExt
+   */
+  public getBCDAt(pos: number): number {
+    return GetBCDAt(this.buffer, pos);
+  }
+
+  /**
+   * Set Binary-Coded Decimal value at specific byte
+   *
+   * @param {number} pos
+   * @returns {number}
+   * @memberof BuffExt
+   */
+  public setBCDAt(pos: number, bcdValue: number): void {
+    return SetBCDAt(this.buffer, pos, bcdValue);
   }
 
   /**
