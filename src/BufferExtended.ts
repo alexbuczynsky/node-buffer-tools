@@ -23,6 +23,7 @@ import {
   Endian,
   ToggleBitAt,
   StringParser,
+  WordSwap,
 } from './utils/BufferTools';
 
 /**
@@ -115,6 +116,17 @@ export class BuffExt {
   }
   public swap32() {
     return this.buffer.swap32();
+  }
+
+  /**
+   * Swaps the high and low WORDS (UINT16)
+   * 
+   * @example [1, 2, 3, 4] => [2, 1, 4, 3]
+   *
+   * @memberof BuffExt
+   */
+  public swapWords() {
+    return this.buffer = WordSwap(this.buffer);
   }
 
   /**
