@@ -26,6 +26,8 @@ import {
   WordSwap,
   GetBCDAt,
   SetBCDAt,
+  GetS7DateTimeAt,
+  SetS7DateTimeAt,
 } from './utils/BufferTools';
 
 /**
@@ -418,6 +420,29 @@ export class BuffExt {
    */
   public setBCDAt(pos: number, bcdValue: number): void {
     return SetBCDAt(this.buffer, pos, bcdValue);
+  }
+
+  /**
+   * Get S7 DateTime from buffer at a starting position
+   *
+   * @param {number} pos starting byte in buffer
+   * @returns {Date}
+   * @memberof BuffExt
+   */
+  public getS7DateTimeAt(pos: number): Date {
+    return GetS7DateTimeAt(this.buffer, pos);
+  }
+
+  /**
+   * Set S7 DateTime from buffer at a starting position
+   *
+   * @param {number} pos starting byte in buffer
+   * @param {Date} date date to write into the buffer
+   * @returns {void}
+   * @memberof BuffExt
+   */
+  public setS7DateTimeAt(pos: number, date: Date): void {
+    return SetS7DateTimeAt(this.buffer, pos, date);
   }
 
   /**
