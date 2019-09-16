@@ -28,6 +28,10 @@ import {
   SetBCDAt,
   GetS7DateTimeAt,
   SetS7DateTimeAt,
+  IPV4Array,
+  GetIPV4AddressAt,
+  GetIPV4AddressAsStringAt,
+  SetIPV4AddressAt,
 } from './utils/BufferTools';
 
 /**
@@ -443,6 +447,46 @@ export class BuffExt {
    */
   public setS7DateTimeAt(pos: number, date: Date): void {
     return SetS7DateTimeAt(this.buffer, pos, date);
+  }
+
+  /**
+   * Gets an IPV4 IP Address from the buffer at a specific position,
+   * and returns it as a number array of length 4.
+   * @param {number} pos
+   * @returns {IPV4Array}
+   * @memberof BuffExt
+   */
+  public getIPV4AddressAt(pos: number): IPV4Array {
+    return GetIPV4AddressAt(this.buffer, pos);
+  }
+
+  /**
+   *Gets an IPV4 IP Address from the buffer at a specific position,
+   * and converts it into the format: `${ip1}.${ip2}.${ip3}.${ip4}`
+   * @param {number} pos
+   * @returns {string}
+   * @memberof BuffExt
+   */
+  public getIPV4AddressAsStringAt(pos: number): string {
+    return GetIPV4AddressAsStringAt(this.buffer, pos);
+  }
+
+
+  public setIPV4AddressAt(pos: number, ipv4Address: IPV4Array): void
+  public setIPV4AddressAt(pos: number, ipv4Address: number[]): void
+  public setIPV4AddressAt(pos: number, ipv4Address: Buffer): void
+  public setIPV4AddressAt(pos: number, ipv4Address: ArrayLike<number>): void
+  public setIPV4AddressAt(pos: number, ipv4Address: string): void
+  /**
+   * Sets an IPV4 IP Address in the buffer at a specific position
+   *
+   * @param {number} pos
+   * @param {(IPV4Array | number[] | Buffer | ArrayLike<number> | string)} ipv4Address
+   * @returns {void}
+   * @memberof BuffExt
+   */
+  public setIPV4AddressAt(pos: number, ipv4Address: IPV4Array | number[] | Buffer | ArrayLike<number> | string): void {
+    return SetIPV4AddressAt(this.buffer, pos, ipv4Address as any);
   }
 
   /**
