@@ -292,11 +292,12 @@ export class BuffExt {
    * Gets a binary string representation of the target byte
    *
    * @param {number} pos
+   * @param {('reversed' | 'normal')} [order='reversed']
    * @returns
    * @memberof BuffExt
    */
-  public getByteBinaryStringAt(pos: number) {
-    return GetByteBinaryString(this.buffer, pos);
+  public getByteBinaryStringAt(pos: number, order: 'reversed' | 'normal' = 'reversed') {
+    return GetByteBinaryString(this.buffer, pos, order);
   }
 
   /**
