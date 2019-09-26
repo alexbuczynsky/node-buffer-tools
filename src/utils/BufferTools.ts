@@ -8,6 +8,12 @@ export type BitIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
  */
 export type Endian = 'LE' | 'BE';
 
+export type Bit = 0 | 1;
+
+export type Crumb = Bit | 2 | 3;
+
+export type Nibble = Crumb | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
+
 function GenerateDefaultMask() {
   return Buffer.from([0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80]);
 }
@@ -51,6 +57,33 @@ export function SetBitAt(buffer: Buffer, pos: number, bit: BitIndex, value: bool
   else {
     buffer[pos] = (buffer[pos] & ~Mask[bit]);
   }
+}
+
+function ReverseString(str: string): string {
+  return str.split('').reverse().join('');
+}
+
+/**
+ * Gets a binary string representation of the target byte
+ *
+ * @export
+ * @param {Buffer} buffer
+ * @param {number} pos
+ * @param {('reversed' | 'normal')} [order='reversed']
+ * @returns
+ */
+export function GetByteBinaryString(buffer: Buffer, pos: number, order: 'reversed' | 'normal' = 'reversed') {
+  const byte = GetUInt8At(buffer, pos);
+  const string = byte.toString(2)
+  const filledString = '00000000'.substr(string.length) + string;
+
+  switch (order) {
+    case 'normal':
+      return filledString
+    default:
+      return ReverseString(filledString);
+  }
+
 }
 
 /**

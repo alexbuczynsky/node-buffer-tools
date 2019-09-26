@@ -32,6 +32,7 @@ import {
   GetIPV4AddressAt,
   GetIPV4AddressAsStringAt,
   SetIPV4AddressAt,
+  GetByteBinaryString,
 } from './utils/BufferTools';
 
 /**
@@ -285,6 +286,17 @@ export class BuffExt {
    */
   public getUInt8At(pos: number) {
     return GetUInt8At(this.buffer, pos)
+  }
+
+  /**
+   * Gets a binary string representation of the target byte
+   *
+   * @param {number} pos
+   * @returns
+   * @memberof BuffExt
+   */
+  public getByteBinaryStringAt(pos: number) {
+    return GetByteBinaryString(this.buffer, pos);
   }
 
   /**
