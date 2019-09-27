@@ -431,6 +431,29 @@ export function GetUInt16At(buffer: Buffer, pos: number, endian: Endian = 'LE'):
   }
 }
 
+/**
+ * Gets a binary string representation of the target uint16
+ *
+ * @export
+ * @param {Buffer} buffer
+ * @param {number} pos
+ * @param {('reversed' | 'normal')} [order='reversed']
+ * @returns
+ */
+export function GetUInt16BinaryString(buffer: Buffer, pos: number, order: 'reversed' | 'normal' = 'reversed') {
+  const word = GetUInt16At(buffer, pos);
+  const string = word.toString(2)
+  const filledString = '0000000000000000'.substr(string.length) + string;
+
+  switch (order) {
+    case 'normal':
+      return filledString
+    default:
+      return ReverseString(filledString);
+  }
+
+}
+
 
 /**
  * Set 16 bit unsigned value 0..65535

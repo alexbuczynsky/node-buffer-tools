@@ -33,6 +33,7 @@ import {
   GetIPV4AddressAsStringAt,
   SetIPV4AddressAt,
   GetByteBinaryString,
+  GetUInt16BinaryString,
 } from './utils/BufferTools';
 
 /**
@@ -321,6 +322,18 @@ export class BuffExt {
    */
   public getUInt16At(pos: number) {
     return GetUInt16At(this.buffer, pos, this.endian)
+  }
+
+  /**
+   * Gets a binary string representation of the target byte
+   *
+   * @param {number} pos
+   * @param {('reversed' | 'normal')} [order='reversed']
+   * @returns
+   * @memberof BuffExt
+   */
+  public getUInt16BinaryStringAt(pos: number, order: 'reversed' | 'normal' = 'reversed') {
+    return GetUInt16BinaryString(this.buffer, pos, order);
   }
 
   /**
