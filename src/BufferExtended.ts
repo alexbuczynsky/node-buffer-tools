@@ -35,6 +35,7 @@ import {
   GetByteBinaryString,
   GetUInt16BinaryString,
 } from './utils/BufferTools';
+import { CloneBuffer } from './utils/CloneBuffer';
 
 /**
  * Extended Buffer Class
