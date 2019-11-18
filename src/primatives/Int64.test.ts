@@ -4,19 +4,28 @@ import { IsBigIntSupported } from '../utils/IsBigIntSupported';
 
 
 describe('Int64', function () {
-  const VALID_VALUE = BigInt(3294967295);
+
 
   it('should initialize the class', function () {
-    const x = new Int64(VALID_VALUE);
-    expect(x).toBeInstanceOf(Int64);
 
     if (IsBigIntSupported()) {
-      expect(x.value).toBe(VALID_VALUE);
+      const VALID_VALUE = BigInt(3294967295);
+      const x = new Int64(VALID_VALUE);
+      expect(x).toBeInstanceOf(Int64);
+
+      if (IsBigIntSupported()) {
+        expect(x.value).toBe(VALID_VALUE);
+      }
     }
+
 
   })
   it('should be valid', function () {
-    const x = new Int64(VALID_VALUE);
-    expect(x.validate()).toBe(undefined)
+    if (IsBigIntSupported()) {
+      const VALID_VALUE = BigInt(3294967295);
+      const x = new Int64(VALID_VALUE);
+      expect(x.validate()).toBe(undefined)
+    }
+
   })
 })
