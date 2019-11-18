@@ -1,5 +1,7 @@
 import { StringDecoder } from 'string_decoder';
 import { ValidateBigIntSupported } from "./ValidateBigIntSupported";
+import { CloneBuffer } from './CloneBuffer';
+import { SwapEndieness } from './SwapEndianess';
 
 export type BitIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -7,6 +9,8 @@ export type BitIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
  * Little or Big Endian
  */
 export type Endian = 'LE' | 'BE';
+
+export const DefaultEndian = 'LE';
 
 export type Bit = 0 | 1;
 
@@ -29,12 +33,14 @@ function GenerateDefaultMask() {
  * @param {BitIndex} bit
  * @returns {boolean}
  */
-export function GetBitAt(buffer: Buffer, pos: number, bit: BitIndex): boolean {
+export function GetBitAt(buffer: Buffer, pos: number, bit: BitIndex, endian: Endian = DefaultEndian): boolean {
   const Mask = GenerateDefaultMask();
   if (bit < 0) bit = 0;
   if (bit > 7) bit = 7;
 
-  return (buffer[pos] & Mask[bit]) != 0;
+  const byte = GetUInt8At(buffer, pos, endian);
+
+  return (byte & Mask[bit]) != 0;
 }
 
 /**
@@ -46,17 +52,21 @@ export function GetBitAt(buffer: Buffer, pos: number, bit: BitIndex): boolean {
  * @param {BitIndex} bit
  * @param {boolean} value
  */
-export function SetBitAt(buffer: Buffer, pos: number, bit: BitIndex, value: boolean): void {
+export function SetBitAt(buffer: Buffer, pos: number, bit: BitIndex, value: boolean, endian: Endian = DefaultEndian): void {
   const Mask = GenerateDefaultMask();
   if (bit < 0) bit = 0;
   if (bit > 7) bit = 7;
 
+  let byte = GetUInt8At(buffer, pos, endian);
+
   if (value) {
-    buffer[pos] = (buffer[pos] | Mask[bit]);
+    byte = (byte | Mask[bit]);
   }
   else {
-    buffer[pos] = (buffer[pos] & ~Mask[bit]);
+    byte = (byte & ~Mask[bit]);
   }
+
+  SetUInt8At(buffer, pos, byte, endian);
 }
 
 function ReverseString(str: string): string {
@@ -72,8 +82,8 @@ function ReverseString(str: string): string {
  * @param {('reversed' | 'normal')} [order='reversed']
  * @returns
  */
-export function GetByteBinaryString(buffer: Buffer, pos: number, order: 'reversed' | 'normal' = 'reversed') {
-  const byte = GetUInt8At(buffer, pos);
+export function GetByteBinaryString(buffer: Buffer, pos: number, order: 'reversed' | 'normal' = 'reversed', endian: Endian = DefaultEndian) {
+  const byte = GetUInt8At(buffer, pos, endian);
   const string = byte.toString(2)
   const filledString = '00000000'.substr(string.length) + string;
 
@@ -94,9 +104,9 @@ export function GetByteBinaryString(buffer: Buffer, pos: number, order: 'reverse
  * @param {number} pos
  * @param {BitIndex} bit
  */
-export function ToggleBitAt(buffer: Buffer, pos: number, bit: BitIndex): void {
-  const currentValue = GetBitAt(buffer, pos, bit);
-  SetBitAt(buffer, pos, bit, !currentValue);
+export function ToggleBitAt(buffer: Buffer, pos: number, bit: BitIndex, endian: Endian = DefaultEndian): void {
+  const currentValue = GetBitAt(buffer, pos, bit, endian);
+  SetBitAt(buffer, pos, bit, !currentValue, endian);
 }
 
 /**
@@ -142,7 +152,7 @@ export function SetInt8At(buffer: Buffer, pos: number, value: number): void {
  * @param {Endian} [endian='LE'] the endian to use, defaults to little endian
  * @returns {number}
  */
-export function GetInt16At(buffer: Buffer, pos: number, endian: Endian = 'LE'): number {
+export function GetInt16At(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
   switch (endian) {
     case 'BE':
       return buffer.readInt16BE(pos);
@@ -160,7 +170,7 @@ export function GetInt16At(buffer: Buffer, pos: number, endian: Endian = 'LE'): 
  * @param {number} value
  * @param {Endian} [endian='LE'] the endian to use, defaults to little endian
  */
-export function SetInt16At(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetInt16At(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
   switch (endian) {
     case 'BE':
       buffer.writeInt16BE(value, pos)
@@ -182,7 +192,7 @@ export function SetInt16At(buffer: Buffer, pos: number, value: number, endian: E
  * @param {Endian} [endian='LE'] the endian to use, defaults to little endian
  * @returns {number}
  */
-export function GetInt32At(buffer: Buffer, pos: number, endian: Endian = 'LE'): number {
+export function GetInt32At(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
   switch (endian) {
     case 'BE':
       return buffer.readInt32BE(pos);
@@ -200,7 +210,7 @@ export function GetInt32At(buffer: Buffer, pos: number, endian: Endian = 'LE'): 
  * @param {number} value
  * @param {Endian} [endian='LE'] the endian to use, defaults to little endian
  */
-export function SetInt32At(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetInt32At(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
   switch (endian) {
     case 'BE':
       buffer.writeInt32BE(value, pos);
@@ -220,7 +230,7 @@ export function SetInt32At(buffer: Buffer, pos: number, value: number, endian: E
  * @param {number} pos
  * @returns {bigint}
  */
-export function GetLIntAt(buffer: Buffer, pos: number, endian: Endian = 'LE'): bigint {
+export function GetLIntAt(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): bigint {
   ValidateBigIntSupported();
 
   switch (endian) {
@@ -244,7 +254,7 @@ export function GetLIntAt(buffer: Buffer, pos: number, endian: Endian = 'LE'): b
  * @param {number} pos
  * @returns {number}
  */
-export function GetLIntAt_UNSAFE(buffer: Buffer, pos: number, endian: Endian = 'LE'): number {
+export function GetLIntAt_UNSAFE(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
 
   let Result: number;
 
@@ -280,7 +290,7 @@ export function GetLIntAt_UNSAFE(buffer: Buffer, pos: number, endian: Endian = '
  * @returns {bigint}
  * @alias GetLIntAt
  */
-export function GetInt64(buffer: Buffer, pos: number, endian: Endian = 'LE'): bigint {
+export function GetInt64(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): bigint {
   return GetLIntAt(buffer, pos, endian)
 }
 
@@ -297,7 +307,7 @@ export function GetInt64(buffer: Buffer, pos: number, endian: Endian = 'LE'): bi
  * @returns {number}
  * @alias GetLIntAt_UNSAFE
  */
-export function GetInt64_UNSAFE(buffer: Buffer, pos: number, endian: Endian = 'LE'): number {
+export function GetInt64_UNSAFE(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
   return GetLIntAt_UNSAFE(buffer, pos, endian)
 }
 
@@ -309,7 +319,7 @@ export function GetInt64_UNSAFE(buffer: Buffer, pos: number, endian: Endian = 'L
  * @param {number} pos
  * @param {bigint} value
  */
-export function SetLIntAt(buffer: Buffer, pos: number, value: bigint, endian: Endian = 'LE'): void {
+export function SetLIntAt(buffer: Buffer, pos: number, value: bigint, endian: Endian = DefaultEndian): void {
   ValidateBigIntSupported();
 
   switch (endian) {
@@ -335,7 +345,7 @@ export function SetLIntAt(buffer: Buffer, pos: number, value: bigint, endian: En
  * @param {number} pos
  * @param {number} value
  */
-export function SetLIntAt_UNSAFE(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetLIntAt_UNSAFE(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
 
   const workingBuffer = Buffer.allocUnsafe(8);
 
@@ -369,7 +379,7 @@ export function SetLIntAt_UNSAFE(buffer: Buffer, pos: number, value: number, end
  * @param {bigint} value
  * @alias SetLIntAt
  */
-export function SetInt64(buffer: Buffer, pos: number, value: bigint, endian: Endian = 'LE'): void {
+export function SetInt64(buffer: Buffer, pos: number, value: bigint, endian: Endian = DefaultEndian): void {
   return SetLIntAt(buffer, pos, value, endian)
 }
 
@@ -386,7 +396,7 @@ export function SetInt64(buffer: Buffer, pos: number, value: bigint, endian: End
  * @param {number} value
  * @alias SetLIntAt_UNSAFE
  */
-export function SetInt64_UNSAFE(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetInt64_UNSAFE(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
   return SetLIntAt_UNSAFE(buffer, pos, value, endian);
 }
 
@@ -398,8 +408,14 @@ export function SetInt64_UNSAFE(buffer: Buffer, pos: number, value: number, endi
  * @param {number} pos
  * @returns {number}
  */
-export function GetUInt8At(buffer: Buffer, pos: number): number {
-  return buffer[pos];
+export function GetUInt8At(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
+  const tempBuffer = CloneBuffer(buffer);
+
+  if (endian === 'BE') {
+    SwapEndieness(tempBuffer)
+  }
+
+  return tempBuffer[pos]
 }
 
 /**
@@ -410,8 +426,15 @@ export function GetUInt8At(buffer: Buffer, pos: number): number {
  * @param {number} pos
  * @param {number} value
  */
-export function SetUInt8At(buffer: Buffer, pos: number, value: number): void {
-  buffer[pos] = value;
+export function SetUInt8At(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
+
+  if (endian === 'BE') {
+    SwapEndieness(buffer);
+    buffer[pos] = value;
+    SwapEndieness(buffer);
+  } else {
+    buffer[pos] = value;
+  }
 }
 
 /**
@@ -422,7 +445,7 @@ export function SetUInt8At(buffer: Buffer, pos: number, value: number): void {
  * @param {number} pos
  * @returns {number}
  */
-export function GetUInt16At(buffer: Buffer, pos: number, endian: Endian = 'LE'): number {
+export function GetUInt16At(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
   switch (endian) {
     case 'BE':
       return buffer.readUInt16BE(pos);
@@ -463,7 +486,7 @@ export function GetUInt16BinaryString(buffer: Buffer, pos: number, order: 'rever
  * @param {number} pos
  * @param {number} value
  */
-export function SetUInt16At(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetUInt16At(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
   switch (endian) {
     case 'BE':
       buffer.writeUInt16BE(value, pos);
@@ -484,7 +507,7 @@ export function SetUInt16At(buffer: Buffer, pos: number, value: number, endian: 
  * @param {number} pos
  * @returns {number}
  */
-export function GetUInt32At(buffer: Buffer, pos: number, endian: Endian = 'LE'): number {
+export function GetUInt32At(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
   switch (endian) {
     case 'BE':
       return buffer.readUInt32BE(pos);
@@ -502,7 +525,7 @@ export function GetUInt32At(buffer: Buffer, pos: number, endian: Endian = 'LE'):
  * @param {number} pos
  * @param {number} value
  */
-export function SetUInt32At(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetUInt32At(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
   switch (endian) {
     case 'BE':
       buffer.writeUInt32BE(value, pos);
@@ -523,7 +546,7 @@ export function SetUInt32At(buffer: Buffer, pos: number, value: number, endian: 
  * @param {Endian} [endian='LE']
  * @returns {number}
  */
-export function GetFloat64At(buffer: Buffer, pos: number, precision: number = 15, endian: Endian = 'LE'): number {
+export function GetFloat64At(buffer: Buffer, pos: number, precision: number = 15, endian: Endian = DefaultEndian): number {
   switch (endian) {
     case 'BE':
       return toFixed(buffer.readDoubleBE(pos), precision);
@@ -542,7 +565,7 @@ export function GetFloat64At(buffer: Buffer, pos: number, precision: number = 15
  * @param {Endian} [endian='LE']
  * @returns {void}
  */
-export function SetFloat64At(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetFloat64At(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
   switch (endian) {
     case 'BE':
       buffer.writeDoubleBE(value, pos);
@@ -567,7 +590,7 @@ function toFixed(x: number, precision: number): number {
  * @param {Endian} [endian='LE']
  * @returns {number}
  */
-export function GetFloat32At(buffer: Buffer, pos: number, precision: number = 3, endian: Endian = 'LE'): number {
+export function GetFloat32At(buffer: Buffer, pos: number, precision: number = 3, endian: Endian = DefaultEndian): number {
   switch (endian) {
     case 'BE':
       return toFixed(buffer.readFloatBE(pos), precision)
@@ -586,7 +609,7 @@ export function GetFloat32At(buffer: Buffer, pos: number, precision: number = 3,
  * @param {Endian} [endian='LE']
  * @returns {void}
  */
-export function SetFloat32At(buffer: Buffer, pos: number, value: number, endian: Endian = 'LE'): void {
+export function SetFloat32At(buffer: Buffer, pos: number, value: number, endian: Endian = DefaultEndian): void {
   switch (endian) {
     case 'BE':
       buffer.writeFloatBE(value, pos);
@@ -688,8 +711,8 @@ export function ByteToBCD(value: number): number {
  * @param {number} pos
  * @returns {number}
  */
-export function GetBCDAt(buffer: Buffer, pos: number): number {
-  return ByteToBCD(GetUInt8At(buffer, pos));
+export function GetBCDAt(buffer: Buffer, pos: number, endian: Endian = DefaultEndian): number {
+  return ByteToBCD(GetUInt8At(buffer, pos, endian));
 }
 
 /**
@@ -700,8 +723,8 @@ export function GetBCDAt(buffer: Buffer, pos: number): number {
  * @param {number} pos
  * @param {number} bcdValue
  */
-export function SetBCDAt(buffer: Buffer, pos: number, bcdValue: number): void {
-  SetUInt8At(buffer, pos, BCDtoByte(bcdValue));
+export function SetBCDAt(buffer: Buffer, pos: number, bcdValue: number, endian: Endian = DefaultEndian): void {
+  SetUInt8At(buffer, pos, BCDtoByte(bcdValue), endian);
 }
 
 /**

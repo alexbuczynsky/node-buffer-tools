@@ -110,12 +110,8 @@ export class BuffExt {
    * @memberof BuffExt
    */
   public clone(): BuffExt {
-    const numBytes = this.byteLength;
-
-    const newBuffer = Buffer.alloc(numBytes);
-
-    this.buffer.copy(newBuffer);
-    return new BuffExt(newBuffer, this.endian);
+    const clonedBuffer = CloneBuffer(this.buffer);
+    return new BuffExt(clonedBuffer, this.endian);
   }
 
   public swap64() {
@@ -159,7 +155,7 @@ export class BuffExt {
    * @memberof BuffExt
    */
   public getBitAt(pos: number, bit: BitIndex): boolean {
-    return GetBitAt(this.buffer, pos, bit)
+    return GetBitAt(this.buffer, pos, bit, this.endian)
   }
 
   /**
@@ -172,7 +168,7 @@ export class BuffExt {
    * @memberof BuffExt
    */
   public setBitAt(pos: number, bit: BitIndex, value: boolean): void {
-    return SetBitAt(this.buffer, pos, bit, value)
+    return SetBitAt(this.buffer, pos, bit, value, this.endian)
   }
 
   /**
@@ -287,7 +283,7 @@ export class BuffExt {
    * @memberof BuffExt
    */
   public getUInt8At(pos: number) {
-    return GetUInt8At(this.buffer, pos)
+    return GetUInt8At(this.buffer, pos, this.endian)
   }
 
   /**
@@ -311,7 +307,7 @@ export class BuffExt {
    * @memberof BuffExt
    */
   public setUInt8At(pos: number, value: number) {
-    return SetUInt8At(this.buffer, pos, value)
+    return SetUInt8At(this.buffer, pos, value, this.endian)
   }
 
   /**
