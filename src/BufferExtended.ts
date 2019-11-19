@@ -36,6 +36,8 @@ import {
   GetUInt16BinaryString,
 } from './utils/BufferTools';
 import { CloneBuffer } from './utils/CloneBuffer';
+import { BufferToBitStringArray } from './utils/BufferToBitStringArray';
+import { DEFAULT_BIT_ORDER, BitOrder } from './utils/ByteToBitString';
 
 /**
  * Extended Buffer Class
@@ -600,6 +602,19 @@ export class BuffExt {
    */
   public toFloat64Array() {
     return new Float64Array(this.buffer);
+  }
+
+  /**
+   * Converts a buffer to a string array
+   * where each string is 8 characters of
+   * either a 1 or a 0.
+   *
+   * @param {BitOrder} [order=DEFAULT_BIT_ORDER]
+   * @returns
+   * @memberof BuffExt
+   */
+  public toBitStringArray(order: BitOrder = DEFAULT_BIT_ORDER) {
+    return BufferToBitStringArray(this.buffer, this.endian, order)
   }
 
 }
