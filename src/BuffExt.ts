@@ -1,4 +1,4 @@
-import { Endian, BitIndex, BitOrder, DEFAULT_BIT_ORDER } from "./constants";
+import { Endian, BitIndex, BitOrder, DEFAULT_BIT_ORDER, DEFAULT_STRING_ENCODING } from "./constants";
 
 import {
   CloneBuffer,
@@ -29,7 +29,7 @@ import {
   SetFloat32At,
   GetFloat64At,
   SetFloat64At,
-  StringParser,
+  GetStringAt,
   GetBCDAt,
   SetBCDAt,
   GetS7DateTimeAt,
@@ -425,11 +425,11 @@ export class BuffExt {
    *
    * @param {number} pos starting position
    * @param {number} length number of characters in the string
-   * @param {BufferEncoding} [format='utf-8']
+   * @param {BufferEncoding} [format=DEFAULT_STRING_ENCODING]
    * @memberof BuffExt
    */
-  public getStringAt(pos: number, length: number, format: BufferEncoding = 'utf-8') {
-    return StringParser(this.buffer.slice(pos, pos + length - 1), format)
+  public getStringAt(pos: number, length: number, format: BufferEncoding = DEFAULT_STRING_ENCODING) {
+    return GetStringAt(this.buffer, pos, length, format)
   }
 
   /**
