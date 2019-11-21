@@ -295,11 +295,11 @@ export class BuffExt {
    * Gets a binary string representation of the target byte
    *
    * @param {number} pos
-   * @param {('reversed' | 'normal')} [order='reversed']
+   * @param {(BitOrder)} [order=DEFAULT_BIT_ORDER]
    * @returns
    * @memberof BuffExt
    */
-  public getByteBinaryStringAt(pos: number, order: 'reversed' | 'normal' = 'reversed') {
+  public getByteBinaryStringAt(pos: number, order: BitOrder = DEFAULT_BIT_ORDER) {
     return GetByteBinaryString(this.buffer, pos, order);
   }
 
@@ -330,11 +330,11 @@ export class BuffExt {
    * Gets a binary string representation of the target byte
    *
    * @param {number} pos
-   * @param {('reversed' | 'normal')} [order='reversed']
+   * @param {(BitOrder)} [order=DEFAULT_BIT_ORDER]
    * @returns
    * @memberof BuffExt
    */
-  public getUInt16BinaryStringAt(pos: number, order: 'reversed' | 'normal' = 'reversed') {
+  public getUInt16BinaryStringAt(pos: number, order: BitOrder = DEFAULT_BIT_ORDER) {
     return GetUInt16BinaryString(this.buffer, pos, order);
   }
 

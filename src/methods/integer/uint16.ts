@@ -1,4 +1,4 @@
-import { DEFAULT_ENDIAN, Endian } from "../../constants";
+import { DEFAULT_ENDIAN, Endian, DEFAULT_BIT_ORDER, BitOrder } from "../../constants";
 import { ReverseString } from "../string";
 
 
@@ -48,7 +48,7 @@ export function SetUInt16At(buffer: Buffer, pos: number, value: number, endian: 
  * @param {('reversed' | 'normal')} [order='reversed']
  * @returns
  */
-export function GetUInt16BinaryString(buffer: Buffer, pos: number, order: 'reversed' | 'normal' = 'reversed') {
+export function GetUInt16BinaryString(buffer: Buffer, pos: number, order: BitOrder = DEFAULT_BIT_ORDER) {
   const word = GetUInt16At(buffer, pos);
   const string = word.toString(2)
   const filledString = '0000000000000000'.substr(string.length) + string;
