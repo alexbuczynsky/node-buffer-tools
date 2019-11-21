@@ -1,4 +1,4 @@
-import { BuffExt } from "./BufferExtended";
+import { BuffExt } from "./BuffExt";
 
 const FIRST_BYTE_STRING = "10110110"
 const SECOND_BYTE_STRING = "01011010";

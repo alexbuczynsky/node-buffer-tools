@@ -1,5 +1,5 @@
 import { PrimativeNumberBigInt } from './PrimativeNumber';
-import { IsBigIntSupported } from '../utils/IsBigIntSupported';
+import { IsBigIntSupported } from '../validators';
 
 export class Int64 extends PrimativeNumberBigInt {
   public readonly min!: bigint;

@@ -1,1 +1,3 @@
-export { checkNumberInRange, isInRange } from './checkNumberInRange';
+export * from './checkNumberInRange';
+export * from './ValidateBigIntSupported';
+export * from './IsBigIntSupported';

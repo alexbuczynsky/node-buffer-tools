@@ -1,6 +1,6 @@
 import { Int64 } from './Int64';
 import { OutOfRangeError } from '../errors';
-import { IsBigIntSupported } from '../utils/IsBigIntSupported';
+import { IsBigIntSupported } from '../validators';
 
 
 describe('Int64', function () {

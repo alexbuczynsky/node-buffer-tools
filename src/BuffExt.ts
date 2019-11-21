@@ -1,29 +1,35 @@
+import { Endian, BitIndex, BitOrder, DEFAULT_BIT_ORDER } from "./constants";
+
+import {
+  CloneBuffer,
+  WordSwap,
+} from "./utils";
+
 import {
   GetBitAt,
   SetBitAt,
-  BitIndex,
+  ToggleBitAt,
   GetInt8At,
   SetInt8At,
   GetInt16At,
   SetInt16At,
   GetInt32At,
   SetInt32At,
-  GetFloat64At,
-  SetFloat64At,
   GetInt64_UNSAFE,
   SetInt64_UNSAFE,
   GetUInt8At,
+  GetByteBinaryString,
   SetUInt8At,
   GetUInt16At,
+  GetUInt16BinaryString,
   SetUInt16At,
   GetUInt32At,
   SetUInt32At,
   GetFloat32At,
   SetFloat32At,
-  Endian,
-  ToggleBitAt,
+  GetFloat64At,
+  SetFloat64At,
   StringParser,
-  WordSwap,
   GetBCDAt,
   SetBCDAt,
   GetS7DateTimeAt,
@@ -32,12 +38,9 @@ import {
   GetIPV4AddressAt,
   GetIPV4AddressAsStringAt,
   SetIPV4AddressAt,
-  GetByteBinaryString,
-  GetUInt16BinaryString,
-} from './utils/BufferTools';
-import { CloneBuffer } from './utils/CloneBuffer';
-import { BufferToBitStringArray } from './utils/BufferToBitStringArray';
-import { DEFAULT_BIT_ORDER, BitOrder } from './utils/ByteToBitString';
+} from "./methods";
+
+import { BufferToBitStringArray } from "./adapters";
 
 /**
  * Extended Buffer Class

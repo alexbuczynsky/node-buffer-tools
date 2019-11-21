@@ -1,6 +1,6 @@
 import { OutOfRangeError } from '../errors';
 
-export function messageConstructor(num: number | bigint, min: number | bigint, max: number | bigint) {
+function messageConstructor(num: number | bigint, min: number | bigint, max: number | bigint) {
   return `Number ${num} falls out of range [${min}, ${max}]`;
 }
 

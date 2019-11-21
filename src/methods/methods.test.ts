@@ -1,12 +1,12 @@
 import {
   GetBitAt,
   SetBitAt,
-  BitIndex,
+  ToggleBitAt,
   GetInt8At,
   SetInt8At,
   GetInt16At,
-  GetInt32At,
   SetInt16At,
+  GetInt32At,
   SetInt32At,
   GetLIntAt_UNSAFE,
   GetInt64_UNSAFE,
@@ -14,14 +14,15 @@ import {
   SetInt64_UNSAFE,
   GetUInt8At,
   SetUInt8At,
-  SetUInt16At,
   GetUInt16At,
-  SetUInt32At,
+  SetUInt16At,
   GetUInt32At,
+  SetUInt32At,
   GetFloat32At,
   SetFloat32At,
-  ToggleBitAt,
-} from './BufferTools';
+} from ".";
+import { BitIndex } from "../constants";
+
 
 // -------------------------------------------------------------------------
 // BITS

@@ -1,6 +1,5 @@
-import { isInRange, checkNumberInRange } from "../validators";
+import { isInRange, checkNumberInRange, IsBigIntSupported } from "../validators";
 import { OutOfRangeError } from "../errors";
-import { IsBigIntSupported } from "../utils/IsBigIntSupported";
 
 /**
  *
