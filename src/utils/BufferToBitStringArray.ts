@@ -1,5 +1,5 @@
 import { ByteToBitString, BitOrder, DEFAULT_BIT_ORDER } from "./ByteToBitString";
-import { Endian, DEFAULT_ENDIAN } from ".";
+import { Endian, DEFAULT_ENDIAN, CloneBuffer } from ".";
 
 /**
  * Converts a buffer to a string array
@@ -13,7 +13,7 @@ import { Endian, DEFAULT_ENDIAN } from ".";
  */
 export function BufferToBitStringArray(buffer: Buffer, endian: Endian = DEFAULT_ENDIAN, order: BitOrder = DEFAULT_BIT_ORDER): string[] {
 
-  const clonedBuffer = Buffer.from(buffer);
+  const clonedBuffer = CloneBuffer(buffer);
 
 
   if (endian === 'BE') {
