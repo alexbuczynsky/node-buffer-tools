@@ -1,4 +1,4 @@
-import { Endian, BitIndex, BitOrder, DEFAULT_BIT_ORDER, DEFAULT_STRING_ENCODING } from "./constants";
+import { Endian, BitIndex, BitOrder, DEFAULT_BIT_ORDER, DEFAULT_STRING_ENCODING, NibbleSignificance } from "./constants";
 
 import {
   CloneBuffer,
@@ -29,6 +29,8 @@ import {
   SetFloat32At,
   GetFloat64At,
   SetFloat64At,
+  GetNibbleAt,
+  SetNibbleAt,
   GetStringAt,
   GetBCDAt,
   SetBCDAt,
@@ -187,6 +189,31 @@ export class BuffExt {
   public toggleBitAt(pos: number, bit: BitIndex): void {
     return ToggleBitAt(this.buffer, pos, bit);
   }
+
+  /**
+   * Gets a nibble at a specific byte in the buffer
+   *
+   * @param {number} pos
+   * @param {NibbleSignificance} significance
+   * @returns {number}
+   * @memberof BuffExt
+   */
+  public getNibbleAt(pos: number, significance: NibbleSignificance): number {
+    return GetNibbleAt(this.buffer, pos, significance, this.endian)
+  }
+
+  /**
+   * Sets a nibble at a specific byte in the buffer
+   *
+   * @param {number} pos
+   * @param {NibbleSignificance} significance
+   * @param {number} nibbleValue
+   * @memberof BuffExt
+   */
+  public setNibbleAt(pos: number, significance: NibbleSignificance, nibbleValue: number): void {
+    SetNibbleAt(this.buffer, pos, significance, nibbleValue, this.endian)
+  }
+
 
   /**
    * Get 8 bit signed value -128..127

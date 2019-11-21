@@ -1,13 +1,34 @@
-import { Nibble, Endian, DEFAULT_ENDIAN, NibbleSignificance } from "../../constants";
+import { Endian, DEFAULT_ENDIAN, NibbleSignificance } from "../../constants";
 import { GetUInt8At, SetUInt8At } from "../byte";
 
+/**
+ * Gets a nibble at a specific byte in the buffer
+ *
+ * @export
+ * @param {Buffer} buffer
+ * @param {number} bytePos
+ * @param {NibbleSignificance} significance
+ * @param {Endian} [endian=DEFAULT_ENDIAN]
+ * @returns {number}
+ */
 export function GetNibbleAt(buffer: Buffer, bytePos: number, significance: NibbleSignificance, endian: Endian = DEFAULT_ENDIAN): number {
   const byte = GetUInt8At(buffer, bytePos, endian);
 
   return GetByteNibble(byte, significance);
 }
 
-export function SetNibbleAt(buffer: Buffer, bytePos: number, significance: NibbleSignificance, nibbleValue: Nibble, endian: Endian = DEFAULT_ENDIAN): void {
+/**
+ * Sets a nibble at a specific byte in the buffer
+ *
+ * @export
+ * @param {Buffer} buffer
+ * @param {number} bytePos
+ * @param {NibbleSignificance} significance
+ * @param {number} nibbleValue
+ * @param {Endian} [endian=DEFAULT_ENDIAN]
+ * @returns {void}
+ */
+export function SetNibbleAt(buffer: Buffer, bytePos: number, significance: NibbleSignificance, nibbleValue: number, endian: Endian = DEFAULT_ENDIAN): void {
   const byte = GetUInt8At(buffer, bytePos, endian);
   return SetUInt8At(buffer, bytePos, SetByteNibble(byte, significance, nibbleValue));
 }
