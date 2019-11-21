@@ -1,5 +1,16 @@
 import { BCDtoByte, ByteToBCD } from "../byte";
 
+enum BCDDateIndex {
+  YEAR = 0,
+  MONTH = 1,
+  DAY = 2,
+  HOUR = 3,
+  MINUTE = 4,
+  SECOND = 5,
+  MSEC_HIGH = 6,
+  MSEC_LOW = 7,
+}
+
 /**
  * Get S7 DateTime from buffer at a starting position
  *
@@ -9,8 +20,7 @@ import { BCDtoByte, ByteToBCD } from "../byte";
  * @returns
  */
 export function GetS7DateTimeAt(buffer: Buffer, pos: number): Date {
-
-  let year: number = BCDtoByte(buffer[pos]);
+  let year = BCDtoByte(buffer[pos + BCDDateIndex.YEAR]);
 
   if (year < 90) {
     year += 2000;
@@ -18,15 +28,15 @@ export function GetS7DateTimeAt(buffer: Buffer, pos: number): Date {
     year += 1900;
   }
 
-  const month: number = BCDtoByte(buffer[pos + 1]) - 1;
-  const day: number = BCDtoByte(buffer[pos + 2]);
-  const hour: number = BCDtoByte(buffer[pos + 3]);
-  const minute: number = BCDtoByte(buffer[pos + 4]);
-  const second: number = BCDtoByte(buffer[pos + 5]);
-  const millisecond: number = (BCDtoByte(buffer[pos + 6]) * 10) + (BCDtoByte(buffer[pos + 7]) / 10);
+  const month = BCDtoByte(buffer[pos + BCDDateIndex.MONTH]) - 1;
+  const dayOfMonth = BCDtoByte(buffer[pos + BCDDateIndex.DAY]);
+  const hour = BCDtoByte(buffer[pos + BCDDateIndex.HOUR]);
+  const minute = BCDtoByte(buffer[pos + BCDDateIndex.MINUTE]);
+  const second = BCDtoByte(buffer[pos + BCDDateIndex.SECOND]);
+  const millisecond = (BCDtoByte(buffer[pos + BCDDateIndex.MSEC_HIGH]) * 10) + (BCDtoByte(buffer[pos + BCDDateIndex.MSEC_LOW]) / 10);
 
   try {
-    return new Date(year, month, day, hour, minute, second, millisecond);
+    return new Date(year, month, dayOfMonth, hour, minute, second, millisecond);
   } catch (error) {
     return new Date(0);
   }
@@ -42,26 +52,29 @@ export function GetS7DateTimeAt(buffer: Buffer, pos: number): Date {
  */
 export function SetS7DateTimeAt(buffer: Buffer, pos: number, date: Date): void {
   let year: number = date.getFullYear();
-  const month: number = date.getMonth() + 1;
-  const day: number = date.getDay();
-  const hour: number = date.getHours();
-  const minutes: number = date.getMinutes();
-  const seconds: number = date.getSeconds();
-  const dayOfWeek: number = date.getDay() + 1;
-  // MSecH = First two digits of miliseconds 
-  const MsecH: number = date.getMilliseconds() / 10;
-  // MSecL = Last digit of miliseconds
-  const MsecL: number = date.getMilliseconds() % 10;
+
   if (year > 1999) {
     year -= 2000;
   }
 
-  buffer[pos] = ByteToBCD(year);
-  buffer[pos + 1] = ByteToBCD(month);
-  buffer[pos + 2] = ByteToBCD(day);
-  buffer[pos + 3] = ByteToBCD(hour);
-  buffer[pos + 4] = ByteToBCD(minutes);
-  buffer[pos + 5] = ByteToBCD(seconds);
-  buffer[pos + 6] = ByteToBCD(MsecH);
-  buffer[pos + 7] = ByteToBCD(MsecL * 10 + dayOfWeek);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const hour = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  const dayOfWeek = date.getDay() + 1;
+  // MilliSecondHigh = First two digits of miliseconds 
+  const MilliSecondHigh = date.getMilliseconds() / 10;
+  // MilliSecondLow = Last digit of miliseconds
+  const MilliSecondLow = date.getMilliseconds() % 10;
+
+
+  buffer[pos + BCDDateIndex.YEAR] = ByteToBCD(year);
+  buffer[pos + BCDDateIndex.MONTH] = ByteToBCD(month);
+  buffer[pos + BCDDateIndex.DAY] = ByteToBCD(day);
+  buffer[pos + BCDDateIndex.HOUR] = ByteToBCD(hour);
+  buffer[pos + BCDDateIndex.MINUTE] = ByteToBCD(minutes);
+  buffer[pos + BCDDateIndex.SECOND] = ByteToBCD(seconds);
+  buffer[pos + BCDDateIndex.MSEC_HIGH] = ByteToBCD(MilliSecondHigh);
+  buffer[pos + BCDDateIndex.MSEC_LOW] = ByteToBCD(MilliSecondLow * 10 + dayOfWeek);
 }

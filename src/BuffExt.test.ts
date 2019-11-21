@@ -1,4 +1,5 @@
 import { BuffExt } from "./BuffExt";
+import { ReverseString } from "./methods";
 
 const FIRST_BYTE_STRING = "10110110"
 const SECOND_BYTE_STRING = "01011010";
@@ -69,6 +70,10 @@ function runStandardBufferTests(buf: BuffExt) {
   expect(buf.getIPV4AddressAsStringAt(0)).toEqual(ipv4String)
   expect(buf.getIPV4AddressAt(0)).toEqual([10, 0, 0, 5])
 
+
+  const s7DateTime = new Date();
+  buf.setS7DateTimeAt(0, s7DateTime);
+  expect(buf.getS7DateTimeAt(0)).toEqual(s7DateTime)
 }
 
 
