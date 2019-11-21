@@ -15,7 +15,7 @@ export function GetFloat64At(buffer: Buffer, pos: number, precision: number = FL
     case 'BE':
       return toFixed(buffer.readDoubleBE(pos), precision);
     case 'LE':
-      return buffer.readDoubleLE(pos)
+      return toFixed(buffer.readDoubleLE(pos), precision);
   }
 }
 
