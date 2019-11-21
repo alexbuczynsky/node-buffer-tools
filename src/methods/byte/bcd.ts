@@ -1,26 +1,37 @@
+import { DEFAULT_ENDIAN, Endian, NibbleSignificance } from "../../constants";
 import { GetUInt8At, SetUInt8At } from "./uint8";
-import { DEFAULT_ENDIAN, Endian } from "../../constants";
+import { GetByteNibble } from "../nibble";
 
+function checkValidBCDNibble(bcdNibble: number) {
+  if (bcdNibble > 10) {
+    throw new Error('Invalid BCD Buffer');
+  }
+}
 /**
  * Binary-Coded Decimal to Byte
  *
  * @export
- * @param {number} byte
+ * @param {number} bcd
  * @returns {number}
  */
-export function BCDtoByte(byte: number): number {
-  return ((byte >> 4) * 10) + (byte & 0x0F);
+export function BCDtoByte(bcd: number): number {
+  const lsn = GetByteNibble(bcd, NibbleSignificance.least);
+  const msn = GetByteNibble(bcd, NibbleSignificance.most);
+
+  checkValidBCDNibble(lsn)
+  checkValidBCDNibble(msn)
+  return (msn * 10) + lsn;
 }
 
 /**
  * Byte to Binary-Coded Decimal
  *
  * @export
- * @param {number} value
+ * @param {number} byte
  * @returns {number}
  */
-export function ByteToBCD(value: number): number {
-  return (((value / 10) << 4) | (value % 10));
+export function ByteToBCD(byte: number): number {
+  return (((byte / 10) << 4) | (byte % 10));
 }
 
 /**
