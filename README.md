@@ -7,15 +7,23 @@ A set of tools to assist with handling nodejs buffers.
 
 ## Buffer Extended Class
 ```ts
+type BitIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type Endian = 'LE' | 'BE';
+type BitOrder = 'reversed' | 'normal';
+enum NibbleSignificance {
+    least = 0,
+    most = 1
+}
+
 /**
  * Extended Buffer Class
  *
  * @export
  * @class BuffExt
  */
-export declare class BuffExt {
-    buffer: Buffer;
-    endian: Endian;
+class BuffExt {
+    public buffer: Buffer;
+    public endian: Endian;
     /**
      * Creates an instance of BuffExt and
      * allocates a new buffer of {size} octets.
