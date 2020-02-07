@@ -1,5 +1,5 @@
-import { BuffExt } from "./BuffExt";
-import { ReverseString } from "./methods";
+import { BuffExt } from "../src/BuffExt";
+import { ReverseString } from "../src/methods";
 
 const FIRST_BYTE_STRING = "10110110"
 const SECOND_BYTE_STRING = "01011010";

@@ -1,26 +1,26 @@
-import { Int8 } from './Int8';
-import { OutOfRangeError } from '../errors';
+import { Int32 } from '../../src/primatives/Int32';
+import { OutOfRangeError } from '../../src/errors';
 
 
-describe('Int8', function () {
-  const VALID_VALUE = -125;
+describe('Int32', function () {
+  const VALID_VALUE = 2147483647;
   const INVALID_VALUES = {
-    LOW: -129,
-    HIGH: 128,
+    LOW: -2147483649,
+    HIGH: 2147483648,
   };
 
   it('should initialize the class', function () {
-    const x = new Int8(VALID_VALUE);
-    expect(x).toBeInstanceOf(Int8);
+    const x = new Int32(VALID_VALUE);
+    expect(x).toBeInstanceOf(Int32);
     expect(x.value).toBe(VALID_VALUE);
   })
   it('should be valid', function () {
-    const x = new Int8(VALID_VALUE);
+    const x = new Int32(VALID_VALUE);
     expect(x.validate()).toBe(undefined)
   })
 
   it('should be too high', function () {
-    const x = new Int8(INVALID_VALUES.HIGH);
+    const x = new Int32(INVALID_VALUES.HIGH);
     let thrownError;
     try {
       x.validate()
@@ -31,7 +31,7 @@ describe('Int8', function () {
   })
 
   it('should be too low', function () {
-    const x = new Int8(INVALID_VALUES.LOW);
+    const x = new Int32(INVALID_VALUES.LOW);
     let thrownError;
     try {
       x.validate()
@@ -43,7 +43,7 @@ describe('Int8', function () {
 
   describe('Get / Set Value Methods', function () {
     it('should be too high', function () {
-      const x = new Int8();
+      const x = new Int32();
 
       let thrownError;
       try {
@@ -55,7 +55,7 @@ describe('Int8', function () {
     })
 
     it('should be too low', function () {
-      const x = new Int8();
+      const x = new Int32();
 
       let thrownError;
       try {

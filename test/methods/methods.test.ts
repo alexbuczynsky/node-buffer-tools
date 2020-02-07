@@ -20,8 +20,8 @@ import {
   SetUInt32At,
   GetFloat32At,
   SetFloat32At,
-} from ".";
-import { BitIndex } from "../constants";
+} from "../../src/methods";
+import { BitIndex } from "../../src/constants";
 
 
 // -------------------------------------------------------------------------

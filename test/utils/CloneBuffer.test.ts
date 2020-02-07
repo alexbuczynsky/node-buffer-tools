@@ -1,4 +1,4 @@
-import { CloneBuffer } from "./CloneBuffer";
+import { CloneBuffer } from "../../src/utils/CloneBuffer";
 
 describe("CloneBuffer", () => {
   it("should create a new buffer allocation in memory", () => {

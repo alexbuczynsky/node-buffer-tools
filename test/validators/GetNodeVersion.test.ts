@@ -1,4 +1,4 @@
-import { GetNodeVersion } from "./GetNodeVersion";
+import { GetNodeVersion } from "../../src/validators/GetNodeVersion";
 
 describe("GetNodeVersion", () => {
   it("should get the current node version", () => {

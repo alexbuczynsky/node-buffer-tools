@@ -1,26 +1,26 @@
-import { UInt8 } from './UInt8';
-import { OutOfRangeError } from '../errors';
+import { UInt16 } from '../../src/primatives/UInt16';
+import { OutOfRangeError } from '../../src/errors';
 
 
-describe('UInt8', function () {
-  const VALID_VALUE = 100;
+describe('UInt16', function () {
+  const VALID_VALUE = 65535;
   const INVALID_VALUES = {
     LOW: -1,
-    HIGH: 256,
+    HIGH: 65536,
   };
 
   it('should initialize the class', function () {
-    const x = new UInt8(VALID_VALUE);
-    expect(x).toBeInstanceOf(UInt8);
+    const x = new UInt16(VALID_VALUE);
+    expect(x).toBeInstanceOf(UInt16);
     expect(x.value).toBe(VALID_VALUE);
   })
   it('should be valid', function () {
-    const x = new UInt8(VALID_VALUE);
+    const x = new UInt16(VALID_VALUE);
     expect(x.validate()).toBe(undefined)
   })
 
   it('should be too high', function () {
-    const x = new UInt8(INVALID_VALUES.HIGH);
+    const x = new UInt16(INVALID_VALUES.HIGH);
     let thrownError;
     try {
       x.validate()
@@ -31,7 +31,7 @@ describe('UInt8', function () {
   })
 
   it('should be too low', function () {
-    const x = new UInt8(INVALID_VALUES.LOW);
+    const x = new UInt16(INVALID_VALUES.LOW);
     let thrownError;
     try {
       x.validate()
@@ -43,7 +43,7 @@ describe('UInt8', function () {
 
   describe('Get / Set Value Methods', function () {
     it('should be too high', function () {
-      const x = new UInt8();
+      const x = new UInt16();
 
       let thrownError;
       try {
@@ -55,7 +55,7 @@ describe('UInt8', function () {
     })
 
     it('should be too low', function () {
-      const x = new UInt8();
+      const x = new UInt16();
 
       let thrownError;
       try {

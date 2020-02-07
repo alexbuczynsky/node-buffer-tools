@@ -1,4 +1,4 @@
-import { WordSwap } from "./WordSwap";
+import { WordSwap } from "../../src/utils/WordSwap";
 
 describe("WordSwap", () => {
   it("should swap the words in the buffer", () => {

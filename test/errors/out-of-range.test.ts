@@ -2,7 +2,7 @@ import {
   ErrorCode,
   errorCodeToString,
   OutOfRangeError,
-} from '.';
+} from '../../src/errors';
 
 describe('Error Tests', function () {
   it('OutOfRangeError', function () {

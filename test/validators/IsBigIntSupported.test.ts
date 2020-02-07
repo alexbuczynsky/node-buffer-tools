@@ -1,5 +1,5 @@
-import { IsBigIntSupported } from "./IsBigIntSupported";
-import { GetNodeVersion } from "./GetNodeVersion";
+import { IsBigIntSupported } from "../../src/validators/IsBigIntSupported";
+import { GetNodeVersion } from "../../src/validators/GetNodeVersion";
 
 describe("IsBigIntSupported", () => {
   it("should check if big int is supported", () => {

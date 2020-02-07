@@ -1,6 +1,6 @@
-import { Int64 } from './Int64';
-import { OutOfRangeError } from '../errors';
-import { IsBigIntSupported } from '../validators';
+import { Int64 } from '../../src/primatives/Int64';
+import { OutOfRangeError } from '../../src/errors';
+import { IsBigIntSupported } from '../../src/validators';
 
 
 describe('Int64', function () {

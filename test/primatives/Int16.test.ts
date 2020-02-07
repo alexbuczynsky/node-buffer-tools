@@ -1,26 +1,26 @@
-import { UInt32 } from './UInt32';
-import { OutOfRangeError } from '../errors';
+import { Int16 } from '../../src/primatives/Int16';
+import { OutOfRangeError } from '../../src/errors';
 
 
-describe('UInt32', function () {
-  const VALID_VALUE = 294967295;
+describe('Int16', function () {
+  const VALID_VALUE = 32767;
   const INVALID_VALUES = {
-    LOW: -1,
-    HIGH: 4294967296,
+    LOW: -32769,
+    HIGH: 32768,
   };
 
   it('should initialize the class', function () {
-    const x = new UInt32(VALID_VALUE);
-    expect(x).toBeInstanceOf(UInt32);
+    const x = new Int16(VALID_VALUE);
+    expect(x).toBeInstanceOf(Int16);
     expect(x.value).toBe(VALID_VALUE);
   })
   it('should be valid', function () {
-    const x = new UInt32(VALID_VALUE);
+    const x = new Int16(VALID_VALUE);
     expect(x.validate()).toBe(undefined)
   })
 
   it('should be too high', function () {
-    const x = new UInt32(INVALID_VALUES.HIGH);
+    const x = new Int16(INVALID_VALUES.HIGH);
     let thrownError;
     try {
       x.validate()
@@ -31,7 +31,7 @@ describe('UInt32', function () {
   })
 
   it('should be too low', function () {
-    const x = new UInt32(INVALID_VALUES.LOW);
+    const x = new Int16(INVALID_VALUES.LOW);
     let thrownError;
     try {
       x.validate()
@@ -43,7 +43,7 @@ describe('UInt32', function () {
 
   describe('Get / Set Value Methods', function () {
     it('should be too high', function () {
-      const x = new UInt32();
+      const x = new Int16();
 
       let thrownError;
       try {
@@ -55,7 +55,7 @@ describe('UInt32', function () {
     })
 
     it('should be too low', function () {
-      const x = new UInt32();
+      const x = new Int16();
 
       let thrownError;
       try {
