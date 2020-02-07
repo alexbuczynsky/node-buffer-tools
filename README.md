@@ -1,6 +1,6 @@
 # Node Buffer Tools
 
-[![Build Status](https://travis-ci.org/alexbuczynsky/node-buffer-tools.png)](https://travis-ci.org/alexbuczynsky/node-buffer-tools)
+![Node.js CI](https://github.com/alexbuczynsky/node-buffer-tools/workflows/Node.js%20CI/badge.svg)
 [![npm version](https://badge.fury.io/js/ts-buffer-tools.svg)](https://badge.fury.io/js/ts-buffer-tools)
 
 A set of tools to assist with handling nodejs buffers.
